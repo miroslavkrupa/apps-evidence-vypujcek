@@ -92,7 +92,14 @@ Ověřeno lokálně (dev server + prohlížeč, desktop i mobilní šířka, sv�
 
 Repozitář je **veřejný** (`miroslavkrupa/apps-evidence-vypujcek`), takže GitHub Pages jsou zdarma.
 Neobsahuje žádná data ani PINy – ty jsou jen v Google tabulce a ve vlastnostech skriptu.
-Zatím **nic není nasazené**; Pages nejsou zapnuté.
+**GitHub Pages jsou zapnuté** (větev `main`, složka `/`) a web běží na
+<https://miroslavkrupa.github.io/apps-evidence-vypujcek/> – každý `git push` do `main` ho během
+minuty aktualizuje. Chybí ale Google část: dokud `web/config.js` nemá `API_URL`, přihlášení
+hlásí „Aplikace není nastavená“.
+
+Pozor: adresa webu je součástí QR kódů na štítcích a kartičkách. Pokud se repozitář později
+přesune pod účet oddělení (6.2), adresa se změní – proto přesun udělat **před** tiskem štítků,
+nebo v `config.js` nastavit `APP_URL` na trvalou adresu.
 
 | Varianta | Náklady | Poznámka |
 |---|---|---|
