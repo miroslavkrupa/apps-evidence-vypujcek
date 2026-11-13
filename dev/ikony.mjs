@@ -7,9 +7,9 @@ import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 
 const CIL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../web/icons');
-const POZADI = [15, 118, 110];
+const POZADI = [0, 50, 103]; // FNO tmavě modrá #003267
 const BILA = [255, 255, 255];
-const LINKY = [153, 214, 207];
+const LINKY = [148, 184, 222]; // FNO světle modrá #94B8DE
 
 // Návrh v souřadnicích 0–100: otevřená kniha se dvěma stránkami a řádky textu.
 function barva(x, y) {

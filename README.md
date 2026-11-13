@@ -3,10 +3,11 @@
 Jednoduchá webová aplikace pro evidenci výpůjček knih z knihovny oddělení.
 Výpůjčka = naskenovat QR kód knihy a kartičku pracovníka. Vrácení = naskenovat knihu.
 
-- **Bez nákladů a bez serveru**: web běží na GitHub Pages, data jsou v Google tabulce,
+- **Bez nákladů a bez serveru**: statický web (GitHub Pages nebo Cloudflare Pages), data v Google tabulce,
   zápis do ní zajišťuje malý skript v Google Apps Scriptu.
-- **Bez závislostí**: čisté HTML/CSS/JavaScript, žádný build, žádné npm. Knihovny pro QR kódy
-  jsou zkopírované ve `web/vendor/`.
+- **Bez závislostí**: čisté HTML/CSS/JavaScript, žádný build, žádné npm. Knihovny pro QR kódy a písmo
+  jsou zkopírované v projektu (`web/vendor/`, `web/fonts/`).
+- **Vzhled** v barvách a písmu FN Ostrava (předběžně podle webu fno.cz, viz PREDANI.md 6.3).
 
 ## Dokumentace
 

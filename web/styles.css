@@ -1,41 +1,75 @@
+/* Písmo Exo 2 (SIL OFL 1.1) – uložené v projektu, viz fonts/Exo2-OFL.txt */
+@font-face {
+  font-family: "Exo 2";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url(fonts/exo-2-latin-ext-wght-normal.woff2) format("woff2-variations"), url(fonts/exo-2-latin-ext-wght-normal.woff2) format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Exo 2";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url(fonts/exo-2-latin-wght-normal.woff2) format("woff2-variations"), url(fonts/exo-2-latin-wght-normal.woff2) format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/*
+ * Barvy podle vizuálního stylu FN Ostrava (převzato z webu fno.cz – oficiální
+ * brand manuál nebyl k dispozici, viz PREDANI.md 6.3):
+ *   tmavě modrá #003267 / #003B79, modrá loga #006FAD, žlutá #F9E217,
+ *   světle modré #94B8DE #DDF1FF #F0F6FB, tmavě červená #A71917, zelená #398509 / #2C6608
+ */
 :root {
-  --bg: #f4f6f6;
+  --fno-modra: #003267;
+  --fno-modra-tmavsi: #003b79;
+  --fno-modra-logo: #006fad;
+  --fno-zluta: #f9e217;
+
+  --bg: #f0f6fb;
   --povrch: #ffffff;
-  --povrch-2: #eef2f2;
-  --text: #17201f;
-  --tlumene: #5b6766;
-  --okraj: #d6dddc;
-  --hlavni: #0f766e;
+  --povrch-2: #eaf3fa;
+  --text: #212529;
+  --tlumene: #52606f;
+  --okraj: #c2d3e4;
+  --hlavni: var(--fno-modra);
   --hlavni-text: #ffffff;
-  --hlavni-svetla: #d5efec;
-  --ok: #15803d;
-  --ok-pozadi: #e3f5e8;
-  --chyba: #b42318;
-  --chyba-pozadi: #fdecea;
-  --varovani: #a15c07;
-  --varovani-pozadi: #fdf3e1;
-  --stin: 0 1px 2px rgb(0 0 0 / 0.06), 0 2px 8px rgb(0 0 0 / 0.05);
+  --hlavni-svetla: #ddf1ff;
+  --zahlavi: var(--fno-modra);
+  --zahlavi-text: #ffffff;
+  --akcent: var(--fno-zluta);
+  --ok: #2c6608;
+  --ok-pozadi: #e6f2dc;
+  --chyba: #a71917;
+  --chyba-pozadi: #fbe9e8;
+  --varovani: #7a5200;
+  --varovani-pozadi: #fff6c4;
+  --stin: 0 1px 2px rgb(0 50 103 / 0.06), 0 2px 8px rgb(0 50 103 / 0.06);
   --polomer: 12px;
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0f1514;
-    --povrch: #172120;
-    --povrch-2: #1f2b2a;
-    --text: #e6eeed;
-    --tlumene: #9aa8a6;
-    --okraj: #2e3c3b;
-    --hlavni: #2bb3a5;
-    --hlavni-text: #04201d;
-    --hlavni-svetla: #123a36;
-    --ok: #4ade80;
-    --ok-pozadi: #12301d;
-    --chyba: #f87171;
-    --chyba-pozadi: #3a1614;
-    --varovani: #fbbf24;
-    --varovani-pozadi: #36280b;
+    --bg: #0a1624;
+    --povrch: #10223a;
+    --povrch-2: #172d4a;
+    --text: #e8eef5;
+    --tlumene: #a3b4c6;
+    --okraj: #26405f;
+    --hlavni: #94b8de;
+    --hlavni-text: #00213f;
+    --hlavni-svetla: #163659;
+    --zahlavi: #002650;
+    --zahlavi-text: #ffffff;
+    --ok: #8fd468;
+    --ok-pozadi: #17311a;
+    --chyba: #ff8f87;
+    --chyba-pozadi: #3d1715;
+    --varovani: #f9e217;
+    --varovani-pozadi: #352f08;
     --stin: none;
     color-scheme: dark;
   }
@@ -49,12 +83,12 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font: 16px/1.45 "Exo 2", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 [hidden] { display: none !important; }
 
-h1, h2, h3 { margin: 0; line-height: 1.2; }
+h1, h2, h3 { margin: 0; line-height: 1.2; font-weight: 600; }
 h2 { font-size: 1.15rem; }
 
 button, input, select, textarea { font: inherit; color: inherit; }
@@ -111,7 +145,7 @@ label { display: block; font-weight: 600; margin: 0.75rem 0 0.25rem; }
 
 .zahlavi {
   position: sticky; top: 0; z-index: 10;
-  background: var(--hlavni); color: var(--hlavni-text);
+  background: var(--zahlavi); color: var(--zahlavi-text);
   padding-top: env(safe-area-inset-top);
 }
 .zahlavi-radek { display: flex; align-items: center; justify-content: space-between; padding: 0.4rem 16px 0; max-width: 1100px; margin: 0 auto; }
@@ -129,7 +163,7 @@ label { display: block; font-weight: 600; margin: 0.75rem 0 0.25rem; }
   padding: 0.65rem 0.8rem; font-weight: 600; border-bottom: 3px solid transparent; cursor: pointer;
   min-height: 44px;
 }
-.navigace button.aktivni { opacity: 1; border-bottom-color: currentColor; }
+.navigace button.aktivni { opacity: 1; border-bottom-color: var(--akcent); }
 .odznak {
   display: inline-block; min-width: 1.4em; padding: 0 0.35em; border-radius: 999px;
   background: rgb(255 255 255 / 0.25); font-size: 0.8rem; text-align: center;
@@ -158,8 +192,9 @@ body.pracuje .prubeh { background: linear-gradient(90deg, transparent, rgb(255 2
 .kamera-ramec.vypnuta .zamerovac, .kamera-ramec.vypnuta video { display: none; }
 .kamera-zprava {
   position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 1.5rem;
-  color: #fff; background: #1b2423;
+  color: #fff; background: #0d1d30;
 }
+.kamera-zprava .tlacitko { color: var(--text); }
 .kamera-ramec.zachyceno { outline: 4px solid var(--ok); outline-offset: -4px; }
 .skener-ovladani { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
 .skener-ovladani .tlacitko { flex: 1; }
@@ -240,11 +275,11 @@ button.polozka, .polozka.klikaci { width: 100%; text-align: left; cursor: pointe
   display: grid; gap: 0.5rem; z-index: 100; width: min(480px, calc(100vw - 32px)); pointer-events: none;
 }
 .toast {
-  padding: 0.75rem 1rem; border-radius: 10px; background: #1f2b2a; color: #fff; font-weight: 600;
+  padding: 0.75rem 1rem; border-radius: 10px; background: #10223a; color: #fff; font-weight: 600;
   box-shadow: 0 4px 16px rgb(0 0 0 / 0.25); animation: toast 0.2s ease-out;
 }
-.toast.ok { background: var(--ok); color: #fff; }
-.toast.chyba { background: #b42318; color: #fff; }
+.toast.ok { background: #2c6608; color: #fff; }
+.toast.chyba { background: #a71917; color: #fff; }
 @keyframes toast { from { opacity: 0; transform: translateY(8px); } }
 
 /* ---------- tisk ---------- */
@@ -262,7 +297,7 @@ button.polozka, .polozka.klikaci { width: 100%; text-align: left; cursor: pointe
   position: relative; width: 210mm; height: 297mm; overflow: hidden;
   page-break-after: always; break-after: page; background: #fff; color: #000;
   -webkit-print-color-adjust: exact; print-color-adjust: exact;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Exo 2", Arial, Helvetica, sans-serif;
 }
 .strana:last-child { page-break-after: auto; break-after: auto; }
 
@@ -282,7 +317,7 @@ button.polozka, .polozka.klikaci { width: 100%; text-align: left; cursor: pointe
   position: absolute; width: 85mm; height: 54mm; border: 0.2mm dashed #999; border-radius: 3mm;
   display: grid; grid-template-rows: auto 1fr; overflow: hidden;
 }
-.karticka .pruh { background: #0f766e; color: #fff; font-size: 8pt; font-weight: 700; padding: 2mm 3.5mm; }
+.karticka .pruh { background: #003267; color: #fff; border-bottom: 1.2mm solid #f9e217; font-size: 8pt; font-weight: 700; padding: 2mm 3.5mm; }
 .karticka .telo { display: flex; gap: 3.5mm; align-items: center; padding: 3mm 3.5mm; }
 .karticka .qr { width: 33mm; height: 33mm; flex: 0 0 auto; }
 .karticka .qr svg { display: block; width: 100%; height: 100%; }

@@ -111,9 +111,9 @@ Repozitář je teď na osobním účtu zadavatele – před ostrým provozem zv�
 
 ### 6.3 Vizuální styl FN Ostrava
 
-Aplikace má zatím vlastní neutrální styl (zelenomodrá `#0f766e`). Zadavatel chce
-navázat na styl FNO. Oficiální brand manuál **není na fno.cz veřejně dostupný** – vyžádat
-od oddělení komunikace FNO. Do té doby lze vycházet z toho, co používá web fno.cz:
+**Zapracováno předběžně.** Oficiální brand manuál **není na fno.cz veřejně dostupný** –
+barvy a písmo jsou převzaté z webu fno.cz a loga. Až bude manuál k dispozici (oddělení
+komunikace FNO), hodnoty ověřit a případně upravit. Použité hodnoty:
 
 | Prvek | Hodnota |
 |---|---|
@@ -126,14 +126,20 @@ od oddělení komunikace FNO. Do té doby lze vycházet z toho, co používá we
 | Zelená (telefon) | `#398509` |
 | Písmo | Exo 2, nadpisy řez 500 |
 
-Doporučení:
+Jak je to zapracované:
 
-- barvy jsou definované jako proměnné na začátku `web/styles.css` (`:root` + tmavý režim) –
-  stačí je přemapovat; zachovat kontrast (WCAG AA),
-- písmo Exo 2 (licence SIL OFL) **zkopírovat do repozitáře** (`web/fonts/`, woff2), nenačítat
-  z Google Fonts – zásada nezávislosti na cizích serverech,
-- **logo FNO nepoužívat** bez souhlasu nemocnice; na štítcích a kartičkách zůstává textový
-  název z `config.js` (`ODDELENI`). Barva pruhu kartičky je v `styles.css` (`.karticka .pruh`).
+- barvy jsou proměnné na začátku `web/styles.css` (`:root`, tmavý režim v `@media`):
+  záhlaví a hlavní tlačítka tmavě modrá `#003267`, aktivní záložka podtržená žlutou `#F9E217`,
+  pozadí `#F0F6FB`, chyby `#A71917`, potvrzení zelená `#2C6608`; tmavý režim na tmavě modrém
+  základu se světle modrou `#94B8DE` jako hlavní barvou,
+- písmo Exo 2 (variabilní, SIL OFL) je **uložené v repozitáři** (`web/fonts/`, jen latin
+  a latin-ext), nenačítá se z Google Fonts; použité i na štítcích a kartičkách,
+- kartičky pracovníků: tmavě modrý pruh se žlutou linkou (`.karticka .pruh`),
+- ikony aplikace (`dev/ikony.mjs`) tmavě modré se světle modrými řádky,
+- **logo FNO se nepoužívá** – jen se souhlasem nemocnice; na štítcích a kartičkách je textový
+  název z `config.js` (`ODDELENI`).
+
+Kontrast ověřit nástrojem (WCAG AA), pokud se barvy po dodání manuálu změní.
 
 ### 6.4 Otázky na zadavatele
 
