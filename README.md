@@ -12,6 +12,7 @@ Výpůjčka = naskenovat QR kód knihy a kartičku pracovníka. Vrácení = nask
 
 | Dokument | Pro koho |
 |---|---|
+| [PREDANI.md](PREDANI.md) | vývojář, který aplikaci dokončí: stav, neověřené části, otevřená rozhodnutí |
 | [docs/instalace.md](docs/instalace.md) | první nasazení krok za krokem |
 | [docs/navod-uzivatel.md](docs/navod-uzivatel.md) | pracovníci (jedna strana k vytištění) |
 | [docs/navod-spravce.md](docs/navod-spravce.md) | správce knihovny |
@@ -35,10 +36,10 @@ index.html      přesměrování na web/ (pro GitHub Pages)
 
 ## Nasazení
 
-Web se publikuje přes GitHub Pages z větve `main` (kořen repozitáře, soubor `.nojekyll` vypíná
-zpracování Jekyllem). Každý `git push` na `main` se do pár minut projeví na
-`https://<uživatel>.github.io/<repozitář>/web/`. Postup pro Google část je v
-[docs/instalace.md](docs/instalace.md).
+Zatím nenasazeno – způsob hostování je otevřené rozhodnutí (viz [PREDANI.md](PREDANI.md), 6.1).
+Pro GitHub Pages z větve `main` je repozitář připravený (kořenový `index.html` přesměruje na
+`web/`, `.nojekyll` vypíná Jekyll); pro Cloudflare Pages stačí jako výstupní složku zadat `web`.
+Postup pro Google část je v [docs/instalace.md](docs/instalace.md).
 
 ## Lokální vývoj
 

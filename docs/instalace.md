@@ -64,6 +64,9 @@ Případně upravte název oddělení (tiskne se na štítky) a limit dní pro z
 
 ## 6. Zveřejnění webu na GitHub Pages
 
+> **Pozor:** GitHub Pages zdarma fungují jen z **veřejného** repozitáře. Pokud má repozitář
+> zůstat soukromý, použijte Cloudflare Pages – viz [PREDANI.md, kapitola 6.1](../PREDANI.md).
+
 1. Založte účet na [github.com](https://github.com) (ideálně také pod e-mailem oddělení).
 2. **New repository** → název např. `apps-evidence-vypujcek` → **Public** → **Create repository**.
 3. Na stránce repozitáře **uploading an existing file** (nebo *Add file → Upload files*)
