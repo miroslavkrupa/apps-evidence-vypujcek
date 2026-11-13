@@ -65,15 +65,15 @@ Případně upravte název oddělení (tiskne se na štítky) a limit dní pro z
 ## 6. Zveřejnění webu na GitHub Pages
 
 1. Založte účet na [github.com](https://github.com) (ideálně také pod e-mailem oddělení).
-2. **New repository** → název např. `vypujcky-kozni` → **Public** → **Create repository**.
+2. **New repository** → název např. `apps-evidence-vypujcek` → **Public** → **Create repository**.
 3. Na stránce repozitáře **uploading an existing file** (nebo *Add file → Upload files*)
    a přetáhněte **celý obsah** složky projektu (soubory `index.html`, `README.md` a složky
    `web`, `apps-script`, `docs`, `dev`). Soubory `dev/data.json` a `dev/props.json`, pokud
    existují, nenahrávejte – jsou jen pro lokální zkoušení. Potvrďte **Commit changes**.
 4. **Settings → Pages** → Source: **Deploy from a branch** → Branch: `main`, složka `/ (root)` → **Save**.
 5. Do pár minut bude aplikace na adrese
-   `https://<uživatel>.github.io/vypujcky-kozni/web/`
-   (adresa `…/vypujcky-kozni/` na ni automaticky přesměruje).
+   `https://<uživatel>.github.io/apps-evidence-vypujcek/web/`
+   (adresa `…/apps-evidence-vypujcek/` na ni automaticky přesměruje).
 
 Repozitář je veřejný, ale **neobsahuje žádná data ani PINy** – jen kód aplikace.
 Data jsou výhradně v Google tabulce.
