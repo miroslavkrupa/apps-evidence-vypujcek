@@ -1,0 +1,62 @@
+# Evidence výpůjček – Kožní oddělení FN Ostrava
+
+Jednoduchá webová aplikace pro evidenci výpůjček knih z knihovny oddělení.
+Výpůjčka = naskenovat QR kód knihy a kartičku pracovníka. Vrácení = naskenovat knihu.
+
+- **Bez nákladů a bez serveru**: web běží na GitHub Pages, data jsou v Google tabulce,
+  zápis do ní zajišťuje malý skript v Google Apps Scriptu.
+- **Bez závislostí**: čisté HTML/CSS/JavaScript, žádný build, žádné npm. Knihovny pro QR kódy
+  jsou zkopírované ve `web/vendor/`.
+
+## Dokumentace
+
+| Dokument | Pro koho |
+|---|---|
+| [docs/instalace.md](docs/instalace.md) | první nasazení krok za krokem |
+| [docs/navod-uzivatel.md](docs/navod-uzivatel.md) | pracovníci (jedna strana k vytištění) |
+| [docs/navod-spravce.md](docs/navod-spravce.md) | správce knihovny |
+| [NAVRH.md](NAVRH.md) | technický návrh a zdůvodnění rozhodnutí |
+
+## Struktura
+
+```
+web/            webová aplikace (publikuje se)
+  config.js       jediný soubor k úpravě při nasazení (adresa API)
+  app.js          obrazovky a průběh výpůjčky/vrácení
+  api.js          volání API
+  skener.js       kamera a USB čtečka
+  tisk.js         štítky a kartičky s QR kódy
+  vendor/         jsQR (čtení QR), qrcode-generator (tvorba QR)
+apps-script/    API nad Google tabulkou (Code.gs) – vkládá se do Apps Scriptu
+dev/            lokální vývoj a testy (nepotřebné pro provoz)
+docs/           návody
+index.html      přesměrování na web/ (pro GitHub Pages)
+```
+
+## Nasazení
+
+Web se publikuje přes GitHub Pages z větve `main` (kořen repozitáře, soubor `.nojekyll` vypíná
+zpracování Jekyllem). Každý `git push` na `main` se do pár minut projeví na
+`https://<uživatel>.github.io/<repozitář>/web/`. Postup pro Google část je v
+[docs/instalace.md](docs/instalace.md).
+
+## Lokální vývoj
+
+Potřebujete jen [Node.js](https://nodejs.org) (verze 18+), nic se neinstaluje.
+
+```bash
+node dev/server.mjs
+```
+
+Aplikace poběží na <http://localhost:8080/> s ukázkovými daty
+(PIN pracovníci `111111`, správce `999999`). Server spouští skutečný `apps-script/Code.gs`
+nad napodobeninou Google tabulky uloženou v `dev/data.json` (smazáním souboru se data obnoví).
+
+```bash
+node dev/test-api.mjs
+```
+
+spustí automatické testy API.
+
+Kamera vyžaduje `https://` nebo `localhost`. Pro test na telefonu v lokální síti je nejjednodušší
+nasadit na GitHub Pages.

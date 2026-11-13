@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Výpůjčky knihovny</title>
+  <meta name="description" content="Evidence výpůjček knih – Kožní oddělení FN Ostrava">
+  <meta name="theme-color" content="#0f766e">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Výpůjčky">
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js"></script>
+  <script src="vendor/jsQR.js" defer></script>
+  <script src="vendor/qrcode.js" defer></script>
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <noscript>Aplikace potřebuje zapnutý JavaScript.</noscript>
+
+  <!-- Přihlášení -->
+  <section id="prihlaseni" class="prihlaseni" hidden>
+    <form id="form-prihlaseni" class="karta prihlaseni-karta" autocomplete="off">
+      <img src="icons/icon.svg" alt="" width="64" height="64">
+      <h1 class="nazev-aplikace">Výpůjčky knihovny</h1>
+      <p class="tlumene" id="prihlaseni-podnadpis"></p>
+      <label for="pin">PIN oddělení</label>
+      <input id="pin" name="pin" type="password" autocomplete="current-password" required minlength="4" autofocus>
+      <p id="prihlaseni-chyba" class="chyba-text" role="alert"></p>
+      <button type="submit" class="tlacitko hlavni velke">Přihlásit</button>
+    </form>
+  </section>
+
+  <!-- Aplikace -->
+  <div id="aplikace" class="aplikace" hidden>
+    <header class="zahlavi">
+      <div class="zahlavi-radek">
+        <h1 class="nazev-aplikace" id="nazev"></h1>
+        <div class="zahlavi-akce">
+          <button type="button" class="tlacitko male" id="obnovit" title="Načíst aktuální data ze serveru">Obnovit</button>
+          <button type="button" class="tlacitko male" id="odhlasit" title="Odhlásit toto zařízení">Odhlásit</button>
+        </div>
+      </div>
+      <nav class="navigace" aria-label="Hlavní nabídka">
+        <button type="button" data-pohled="skenovat" class="aktivni">Skenovat</button>
+        <button type="button" data-pohled="vypujcene">Vypůjčené <span class="odznak" id="pocet-vypujcenych"></span></button>
+        <button type="button" data-pohled="knihy">Knihy</button>
+        <button type="button" data-pohled="lide">Lidé</button>
+        <button type="button" data-pohled="sprava" id="nav-sprava" hidden>Správa</button>
+      </nav>
+      <div class="prubeh" id="prubeh" aria-hidden="true"></div>
+    </header>
+
+    <main class="obsah">
+      <!-- Skenování -->
+      <section id="pohled-skenovat" class="pohled">
+        <div class="skener">
+          <div class="kamera-ramec" id="kamera-ramec">
+            <video id="video" playsinline muted></video>
+            <div class="zamerovac" aria-hidden="true"></div>
+            <div class="kamera-zprava" id="kamera-zprava" hidden></div>
+          </div>
+          <div class="skener-ovladani">
+            <button type="button" class="tlacitko" id="kamera-prepnout">Vypnout kameru</button>
+            <button type="button" class="tlacitko" id="rucne">Zadat ručně</button>
+          </div>
+        </div>
+        <div id="tok" class="karta tok" aria-live="polite"></div>
+      </section>
+
+      <!-- Vypůjčené -->
+      <section id="pohled-vypujcene" class="pohled" hidden>
+        <div class="nastroje">
+          <input type="search" id="hledat-vypujcene" placeholder="Hledat knihu nebo jméno…" aria-label="Hledat ve vypůjčených">
+        </div>
+        <p class="tlumene" id="souhrn-vypujcene"></p>
+        <ul class="seznam" id="seznam-vypujcene"></ul>
+      </section>
+
+      <!-- Knihy -->
+      <section id="pohled-knihy" class="pohled" hidden>
+        <div class="nastroje">
+          <input type="search" id="hledat-knihy" placeholder="Hledat název, autora, ID…" aria-label="Hledat knihy">
+          <select id="filtr-knihy" aria-label="Filtr">
+            <option value="vse">Všechny</option>
+            <option value="volne">Volné</option>
+            <option value="vypujcene">Vypůjčené</option>
+            <option value="vyrazene">Vyřazené</option>
+          </select>
+        </div>
+        <p class="tlumene" id="souhrn-knihy"></p>
+        <ul class="seznam" id="seznam-knihy"></ul>
+      </section>
+
+      <!-- Lidé -->
+      <section id="pohled-lide" class="pohled" hidden>
+        <div class="nastroje">
+          <input type="search" id="hledat-lide" placeholder="Hledat jméno…" aria-label="Hledat pracovníky">
+          <label class="zaskrtavatko"><input type="checkbox" id="lide-neaktivni"> i neaktivní</label>
+        </div>
+        <ul class="seznam" id="seznam-lide"></ul>
+      </section>
+
+      <!-- Správa -->
+      <section id="pohled-sprava" class="pohled" hidden>
+        <div class="mrizka-sprava">
+          <div class="karta">
+            <h2>Knihy</h2>
+            <p class="tlumene">Nová kniha dostane ID automaticky. Štítek s QR kódem pak vytisknete níže.</p>
+            <div class="radek-tlacitek">
+              <button type="button" class="tlacitko hlavni" id="nova-kniha">+ Nová kniha</button>
+              <button type="button" class="tlacitko" id="import-knih">Hromadný import</button>
+            </div>
+          </div>
+          <div class="karta">
+            <h2>Pracovníci</h2>
+            <p class="tlumene">Pracovníka, který odešel, nemažte – jen ho deaktivujte, historie zůstane.</p>
+            <div class="radek-tlacitek">
+              <button type="button" class="tlacitko hlavni" id="novy-pracovnik">+ Nový pracovník</button>
+            </div>
+          </div>
+          <div class="karta">
+            <h2>Tisk</h2>
+            <p class="tlumene">Štítky na knihy (samolepicí etikety A4) a kartičky pracovníků (velikost platební karty).</p>
+            <div class="radek-tlacitek">
+              <button type="button" class="tlacitko" id="tisk-stitku">Štítky knih</button>
+              <button type="button" class="tlacitko" id="tisk-karticek">Kartičky pracovníků</button>
+            </div>
+          </div>
+          <div class="karta">
+            <h2>O aplikaci</h2>
+            <p class="tlumene" id="o-aplikaci"></p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="dialog" class="dialog">
+    <div class="dialog-hlavicka">
+      <h2 id="dialog-titulek"></h2>
+      <button type="button" class="tlacitko ikonove" id="dialog-zavrit" aria-label="Zavřít">✕</button>
+    </div>
+    <div id="dialog-obsah" class="dialog-obsah"></div>
+  </dialog>
+
+  <div id="toasty" class="toasty" aria-live="assertive"></div>
+  <div id="tisk" class="tisk" aria-hidden="true"></div>
+</body>
+</html>
