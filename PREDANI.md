@@ -90,18 +90,17 @@ Ověřeno lokálně (dev server + prohlížeč, desktop i mobilní šířka, sv�
 
 ### 6.1 Hosting webu
 
-Repozitář je **soukromý** (`miroslavkrupa/apps-evidence-vypujcek`). GitHub Pages ze soukromého
-repozitáře vyžaduje placený GitHub Pro, což odporuje požadavku na nulové náklady.
-Návod [docs/instalace.md](docs/instalace.md) zatím počítá s veřejným repozitářem a GitHub Pages.
+Repozitář je **veřejný** (`miroslavkrupa/apps-evidence-vypujcek`), takže GitHub Pages jsou zdarma.
+Neobsahuje žádná data ani PINy – ty jsou jen v Google tabulce a ve vlastnostech skriptu.
+Zatím **nic není nasazené**; Pages nejsou zapnuté.
 
 | Varianta | Náklady | Poznámka |
 |---|---|---|
-| **Cloudflare Pages napojené na soukromý repozitář** (doporučeno) | 0 Kč | automatické nasazení po `git push`, adresa `*.pages.dev`; publikovat jen složku `web/` (build command žádný, output `web`) |
-| Veřejný repozitář + GitHub Pages | 0 Kč | v repozitáři nejsou data ani PINy; nastavení už připravené (`.nojekyll`, kořenový `index.html` přesměruje na `web/`) |
-| GitHub Pro + Pages | předplatné | nevyhovuje zadání |
+| **GitHub Pages z tohoto repozitáře** (doporučeno) | 0 Kč | stačí zapnout v *Settings → Pages* (větev `main`, složka `/ (root)`); vše připravené (`.nojekyll`, kořenový `index.html` přesměruje na `web/`); adresa `https://miroslavkrupa.github.io/apps-evidence-vypujcek/` |
+| Cloudflare Pages | 0 Kč | pokud by se repozitář později vrátil na soukromý (GitHub Pages ze soukromého repozitáře vyžadují placený GitHub Pro); build command žádný, output `web` |
 
-Při volbě Cloudflare upravit `docs/instalace.md` (kapitola 6) a v `config.js` případně
-nastavit `APP_URL`.
+Postup je v [docs/instalace.md](docs/instalace.md), kapitola 6. Po nasazení v `config.js`
+případně nastavit `APP_URL` (adresa, kterou kódují QR štítky).
 
 ### 6.2 Vlastnictví účtů
 

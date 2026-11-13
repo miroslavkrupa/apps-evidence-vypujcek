@@ -64,8 +64,13 @@ Případně upravte název oddělení (tiskne se na štítky) a limit dní pro z
 
 ## 6. Zveřejnění webu na GitHub Pages
 
-> **Pozor:** GitHub Pages zdarma fungují jen z **veřejného** repozitáře. Pokud má repozitář
-> zůstat soukromý, použijte Cloudflare Pages – viz [PREDANI.md, kapitola 6.1](../PREDANI.md).
+> Veřejný repozitář [miroslavkrupa/apps-evidence-vypujcek](https://github.com/miroslavkrupa/apps-evidence-vypujcek)
+> už existuje – pro nasazení z něj stačí **krok 4** a aplikace bude na
+> `https://miroslavkrupa.github.io/apps-evidence-vypujcek/`. Kroky 1–3 jsou jen pro založení
+> vlastního repozitáře (např. pod účtem oddělení).
+>
+> GitHub Pages zdarma fungují jen z **veřejného** repozitáře. Pro soukromý použijte
+> Cloudflare Pages – viz [PREDANI.md, kapitola 6.1](../PREDANI.md).
 
 1. Založte účet na [github.com](https://github.com) (ideálně také pod e-mailem oddělení).
 2. **New repository** → název např. `apps-evidence-vypujcek` → **Public** → **Create repository**.

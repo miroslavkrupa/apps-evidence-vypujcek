@@ -37,8 +37,8 @@ index.html      přesměrování na web/ (pro GitHub Pages)
 
 ## Nasazení
 
-Zatím nenasazeno – způsob hostování je otevřené rozhodnutí (viz [PREDANI.md](PREDANI.md), 6.1).
-Pro GitHub Pages z větve `main` je repozitář připravený (kořenový `index.html` přesměruje na
+Zatím nenasazeno (viz [PREDANI.md](PREDANI.md), 6.1). Repozitář je veřejný, takže stačí zapnout
+GitHub Pages z větve `main` – vše je připravené (kořenový `index.html` přesměruje na
 `web/`, `.nojekyll` vypíná Jekyll); pro Cloudflare Pages stačí jako výstupní složku zadat `web`.
 Postup pro Google část je v [docs/instalace.md](docs/instalace.md).
 
