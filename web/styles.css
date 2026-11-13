@@ -140,6 +140,28 @@ label { display: block; font-weight: 600; margin: 0.75rem 0 0.25rem; }
 .prihlaseni-karta label, .prihlaseni-karta input { text-align: left; }
 .prihlaseni-karta input { font-size: 1.3rem; letter-spacing: 0.2em; text-align: center; }
 .prihlaseni-karta .nazev-aplikace { margin: 0.5rem 0 0.25rem; font-size: 1.4rem; }
+/* bez adresy API nemá PIN smysl – zbude jen nabídka ukázky */
+.prihlaseni-karta.bez-api label,
+.prihlaseni-karta.bez-api input,
+.prihlaseni-karta.bez-api button[type="submit"] { display: none; }
+.ukazka-prihlaseni {
+  margin-top: 1rem; padding: 0.75rem; border-radius: 10px;
+  background: var(--hlavni-svetla); text-align: center;
+}
+.ukazka-prihlaseni p { margin: 0.4rem 0; }
+.ukazka-prihlaseni code { font-size: 1.05em; font-weight: 700; letter-spacing: 0.08em; }
+.prihlaseni-karta.bez-api .ukazka-prihlaseni { margin-top: 0.5rem; background: none; padding: 0; }
+
+/* pruh „Ukázka“ nad záhlavím */
+.pruh-ukazky {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.25rem 0.75rem;
+  padding: 0.3rem 16px; background: var(--fno-zluta); color: #00213f; font-size: 0.9rem;
+}
+.pruh-ukazky[hidden] { display: none; }
+.pruh-ukazky button {
+  font: inherit; color: inherit; background: none; border: 0; padding: 0.1rem 0.2rem;
+  text-decoration: underline; cursor: pointer;
+}
 
 /* ---------- záhlaví a navigace ---------- */
 

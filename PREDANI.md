@@ -34,13 +34,15 @@ prohlížeč (telefon / tablet / PC)
 | Soubor | Obsah |
 |---|---|
 | `web/app.js` | stav aplikace, obrazovky, průběh výpůjčky/vrácení (stavový automat `stav.tok`) |
-| `web/api.js` | `zavolej(akce, data)`, uložení PINu v `localStorage` |
+| `web/api.js` | `zavolej(akce, data)`, uložení PINu v `localStorage`, přepnutí do ukázkového režimu |
+| `web/demo/ukazka.js` | ukázkový režim: `Code.gs` běží v prohlížeči nad daty v `localStorage` (vč. synchronního SHA-256) |
+| `web/demo/gas.js` | napodobenina SpreadsheetApp, LockService, CacheService, PropertiesService, Utilities, ContentService a ukázková data – sdílí ji ukázka i `dev/` |
 | `web/skener.js` | kamera (`BarcodeDetector`, jinak jsQR), USB čtečka (vč. převodu české klávesnice), `rozpoznejKod()` |
 | `web/tisk.js` | štítky (formáty etiket) a kartičky, SVG QR kódy, tisk přes `window.print()` |
 | `web/config.js` | jediné místo konfigurace: `API_URL`, názvy, `LIMIT_DNI`, `APP_URL` |
 | `apps-script/Code.gs` | API, PINy, menu v tabulce, měsíční zálohy |
 | `dev/server.mjs` | lokální server: servíruje `web/` a na `/api` spouští skutečný `Code.gs` nad napodobeninou tabulky |
-| `dev/gas-shim.mjs` | napodobenina SpreadsheetApp, LockService, CacheService, PropertiesService, Utilities, ContentService |
+| `dev/gas-shim.mjs` | spustí `Code.gs` v Node.js (`vm`) nad napodobeninou z `web/demo/gas.js` |
 | `dev/test-api.mjs` | 16 testů API |
 
 ## 3. Spuštění u sebe
@@ -94,8 +96,8 @@ Repozitář je **veřejný** (`miroslavkrupa/apps-evidence-vypujcek`), takže Gi
 Neobsahuje žádná data ani PINy – ty jsou jen v Google tabulce a ve vlastnostech skriptu.
 **GitHub Pages jsou zapnuté** (větev `main`, složka `/`) a web běží na
 <https://miroslavkrupa.github.io/apps-evidence-vypujcek/> – každý `git push` do `main` ho během
-minuty aktualizuje. Chybí ale Google část: dokud `web/config.js` nemá `API_URL`, přihlášení
-hlásí „Aplikace není nastavená“.
+minuty aktualizuje. Chybí ale Google část: dokud `web/config.js` nemá `API_URL`, nabízí
+přihlašovací obrazovka jen **ukázku na testovacích datech** (viz 6.5).
 
 Pozor: adresa webu je součástí QR kódů na štítcích a kartičkách. Pokud se repozitář později
 přesune pod účet oddělení (6.2), adresa se změní – proto přesun udělat **před** tiskem štítků,
@@ -103,8 +105,8 @@ nebo v `config.js` nastavit `APP_URL` na trvalou adresu.
 
 | Varianta | Náklady | Poznámka |
 |---|---|---|
-| **GitHub Pages z tohoto repozitáře** (doporučeno) | 0 Kč | stačí zapnout v *Settings → Pages* (větev `main`, složka `/ (root)`); vše připravené (`.nojekyll`, kořenový `index.html` přesměruje na `web/`); adresa `https://miroslavkrupa.github.io/apps-evidence-vypujcek/` |
-| Cloudflare Pages | 0 Kč | pokud by se repozitář později vrátil na soukromý (GitHub Pages ze soukromého repozitáře vyžadují placený GitHub Pro); build command žádný, output `web` |
+| **GitHub Pages z tohoto repozitáře** (doporučeno, zapnuto) | 0 Kč | *Settings → Pages*: větev `main`, složka `/ (root)`; vše připravené (`.nojekyll`, kořenový `index.html` přesměruje na `web/`); adresa `https://miroslavkrupa.github.io/apps-evidence-vypujcek/` |
+| Cloudflare Pages | 0 Kč | pokud by se repozitář později vrátil na soukromý (GitHub Pages ze soukromého repozitáře vyžadují placený GitHub Pro); build command žádný, output `web` – pak ale nefunguje ukázka (potřebuje `apps-script/Code.gs` mimo `web/`) |
 
 Postup je v [docs/instalace.md](docs/instalace.md), kapitola 6. Po nasazení v `config.js`
 případně nastavit `APP_URL` (adresa, kterou kódují QR štítky).
@@ -152,6 +154,22 @@ Kontrast ověřit nástrojem (WCAG AA), pokud se barvy po dodání manuálu změ
 Viz [NAVRH.md, kapitola 14](NAVRH.md): počet knih a pracovníků, existující seznam knih,
 kdo bude správce, stálé zařízení u knihovny, typ etiket, kartička vs. štítek na průkaz,
 limit dlouhých výpůjček (výchozí 90 dní).
+
+### 6.5 Ukázkový režim
+
+Dokud `web/config.js` nemá `API_URL`, lze aplikaci vyzkoušet na testovacích datech:
+tlačítko „Vyzkoušet na testovacích datech“ na přihlašovací obrazovce, nebo rovnou odkaz
+<https://miroslavkrupa.github.io/apps-evidence-vypujcek/?ukazka>. PIN pracovníci `111111`,
+správce `999999`.
+
+- V prohlížeči běží **skutečný `apps-script/Code.gs`** (načte se z repozitáře) nad napodobeninou
+  tabulky; data jsou jen v `localStorage` daného prohlížeče, nic se neodesílá.
+- Žlutý pruh „Ukázka“ nahoře: *Obnovit data* (výchozí stav), *Ukončit* (smaže data i přihlášení).
+- Funguje vše včetně tisku štítků a kartiček a skenování – QR kódy z ukázky vedou na adresu
+  ukázky, **ostré štítky z ní netiskněte**.
+- Jakmile se do `config.js` doplní `API_URL`, ukázka se vypne sama (i u zařízení, která ji
+  měla zapnutou), aby se ostrá a testovací data nepomíchala. Kód ukázky může zůstat;
+  kdo chce, smaže složku `web/demo/` a větev `ukazka` v `web/api.js` a `web/app.js`.
 
 ## 7. Známá omezení a vědomé kompromisy
 

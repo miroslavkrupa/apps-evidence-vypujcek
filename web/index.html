@@ -32,12 +32,18 @@
       <input id="pin" name="pin" type="password" autocomplete="current-password" required minlength="4" autofocus>
       <p id="prihlaseni-chyba" class="chyba-text" role="alert"></p>
       <button type="submit" class="tlacitko hlavni velke">Přihlásit</button>
+      <div id="ukazka-prihlaseni" class="ukazka-prihlaseni" hidden></div>
     </form>
   </section>
 
   <!-- Aplikace -->
   <div id="aplikace" class="aplikace" hidden>
     <header class="zahlavi">
+      <div class="pruh-ukazky" id="pruh-ukazky" hidden>
+        <span><strong>Ukázka</strong> – testovací data jen v tomto prohlížeči</span>
+        <button type="button" id="ukazka-obnovit">Obnovit data</button>
+        <button type="button" id="ukazka-ukoncit">Ukončit</button>
+      </div>
       <div class="zahlavi-radek">
         <h1 class="nazev-aplikace" id="nazev"></h1>
         <div class="zahlavi-akce">

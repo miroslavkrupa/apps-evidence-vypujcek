@@ -28,6 +28,7 @@ web/            webová aplikace (publikuje se)
   api.js          volání API
   skener.js       kamera a USB čtečka
   tisk.js         štítky a kartičky s QR kódy
+  demo/           ukázkový režim (Code.gs v prohlížeči nad testovacími daty)
   vendor/         jsQR (čtení QR), qrcode-generator (tvorba QR)
 apps-script/    API nad Google tabulkou (Code.gs) – vkládá se do Apps Scriptu
 dev/            lokální vývoj a testy (nepotřebné pro provoz)
@@ -39,9 +40,13 @@ index.html      přesměrování na web/ (pro GitHub Pages)
 
 Web běží na GitHub Pages: <https://miroslavkrupa.github.io/apps-evidence-vypujcek/>
 (z větve `main`, každý push ho aktualizuje). Zatím bez Google části – v `web/config.js` chybí
-adresa API (viz [PREDANI.md](PREDANI.md), 6.1). Repozitář je pro Pages připravený (kořenový `index.html` přesměruje na
-`web/`, `.nojekyll` vypíná Jekyll); pro Cloudflare Pages stačí jako výstupní složku zadat `web`.
-Postup pro Google část je v [docs/instalace.md](docs/instalace.md).
+adresa API (viz [PREDANI.md](PREDANI.md), 6.1). Repozitář je pro Pages připravený (kořenový
+`index.html` přesměruje na `web/`, `.nojekyll` vypíná Jekyll); pro Cloudflare Pages stačí jako
+výstupní složku zadat `web`. Postup pro Google část je v [docs/instalace.md](docs/instalace.md).
+
+**Ukázka na testovacích datech:** <https://miroslavkrupa.github.io/apps-evidence-vypujcek/?ukazka>
+(PIN pracovníci `111111`, správce `999999`; data zůstávají jen v daném prohlížeči,
+viz [PREDANI.md](PREDANI.md), 6.5).
 
 ## Lokální vývoj
 

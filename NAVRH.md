@@ -234,6 +234,9 @@ apps-evidence-vypujcek/
 │   ├── config.js             adresa API (jediné místo ke změně)
 │   ├── manifest.webmanifest  instalace na plochu telefonu
 │   ├── icons/
+│   ├── demo/                 ukázkový režim: Code.gs v prohlížeči nad testovacími daty
+│   │   ├── ukazka.js
+│   │   └── gas.js            napodobenina služeb Google (sdílí ji i dev/)
 │   └── vendor/
 │       ├── jsQR.js
 │       └── qrcode.js
@@ -242,7 +245,7 @@ apps-evidence-vypujcek/
 │   └── appsscript.json
 ├── dev/                      jen pro vývoj (provoz to nepotřebuje)
 │   ├── server.mjs            lokální server: web/ + Code.gs nad napodobeninou tabulky
-│   ├── gas-shim.mjs          napodobenina služeb Google Apps Scriptu
+│   ├── gas-shim.mjs          spuštění Code.gs v Node.js nad web/demo/gas.js
 │   ├── test-api.mjs          automatické testy API
 │   └── ikony.mjs             generátor ikon
 └── docs/

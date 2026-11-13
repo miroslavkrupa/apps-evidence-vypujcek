@@ -1,7 +1,7 @@
 // Evidence výpůjček – hlavní logika aplikace.
 
 import { el, $, datum, datumCas, dniOd, dnyText, knihText, proHledani, odpovida, toast, pipnout, odemkniZvuk, uloziste } from './util.js';
-import { zavolej, relace, nastaveni } from './api.js';
+import { zavolej, relace, nastaveni, ukazka } from './api.js';
 import { Kamera, rozpoznejKod, poslouchejCtecku } from './skener.js';
 import { FORMATY_STITKU, stranyStitku, stranyKarticek, vytiskni, adresaAplikace } from './tisk.js';
 
@@ -111,9 +111,8 @@ function zobrazPrihlaseni(zprava = '') {
   $('#aplikace').hidden = true;
   $('#prihlaseni').hidden = false;
   $('#prihlaseni-podnadpis').textContent = nastaveni.NAZEV;
-  $('#prihlaseni-chyba').textContent = !nastaveni.API_URL
-    ? 'Aplikace není nastavená: v souboru config.js chybí adresa API.'
-    : zprava;
+  $('#prihlaseni-chyba').textContent = zprava;
+  vykresliUkazkuPrihlaseni();
   $('#pin').value = '';
   setTimeout(() => $('#pin').focus(), 50);
 }
@@ -147,7 +146,41 @@ function odhlasit(zprava = '') {
   zobrazPrihlaseni(zprava);
 }
 
+// Dokud config.js nemá adresu API, lze aplikaci vyzkoušet na testovacích datech.
+function vykresliUkazkuPrihlaseni() {
+  const box = $('#ukazka-prihlaseni');
+  box.hidden = !ukazka.mozna;
+  $('#form-prihlaseni').classList.toggle('bez-api', ukazka.mozna && !ukazka.aktivni);
+  if (!ukazka.mozna) return;
+  if (ukazka.aktivni) {
+    box.replaceChildren(
+      el('strong', {}, 'Ukázka s testovacími daty'),
+      el('p', {}, 'PIN pro pracovníky ', el('code', {}, '111111'), ', pro správce ', el('code', {}, '999999'), '.'),
+      el('p', { class: 'tlumene' }, 'Data jsou uložená jen v tomto prohlížeči, nikam se neodesílají.'),
+      el('button', { type: 'button', class: 'tlacitko male', onclick: ukoncitUkazku }, 'Ukončit ukázku'));
+  } else {
+    box.replaceChildren(
+      el('p', {}, 'Aplikace zatím není napojená na Google tabulku (v config.js chybí adresa API).'),
+      el('button', { type: 'button', class: 'tlacitko hlavni velke', onclick: () => { ukazka.zapnout(); zobrazPrihlaseni(); } },
+        'Vyzkoušet na testovacích datech'));
+  }
+}
+
+async function obnovitUkazku() {
+  if (!confirm('Vrátit ukázková data do výchozího stavu? Všechny změny v ukázce se smažou.')) return;
+  await ukazka.smazData();
+  stav.tok = novyTok();
+  await nacist(true);
+  toast('Ukázková data obnovena.', 'ok');
+}
+
+async function ukoncitUkazku() {
+  await ukazka.vypnout();
+  odhlasit();
+}
+
 function zobrazAplikaci() {
+  $('#pruh-ukazky').hidden = !ukazka.aktivni;
   $('#prihlaseni').hidden = true;
   $('#aplikace').hidden = false;
   $('#nav-sprava').hidden = !jeSpravce();
@@ -753,7 +786,9 @@ function vykresliSpravu() {
   info.replaceChildren(
     `Verze ${VERZE}. Přihlášeno jako ${jeSpravce() ? 'správce' : 'pracovník'}. `,
     `V evidenci: ${knihText(stav.knihy.filter((k) => k.aktivni).length)}, pracovníků: ${stav.pracovnici.filter((p) => p.aktivni).length}. `,
-    `Data se ukládají do Google tabulky oddělení; tam je i celá historie. `,
+    ukazka.aktivni
+      ? 'Ukázka: data jsou uložená jen v tomto prohlížeči. '
+      : 'Data se ukládají do Google tabulky oddělení; tam je i celá historie. ',
     el('br'),
     `Adresa v QR kódech: ${adresaAplikace()}`);
 }
@@ -1030,6 +1065,10 @@ function napojUdalosti() {
   $('#form-prihlaseni').addEventListener('submit', prihlasit);
   document.querySelectorAll('.navigace button').forEach((b) => b.addEventListener('click', () => prepniPohled(b.dataset.pohled)));
   $('#obnovit').addEventListener('click', () => nacist());
+  $('#ukazka-obnovit').addEventListener('click', obnovitUkazku);
+  $('#ukazka-ukoncit').addEventListener('click', () => {
+    if (confirm('Ukončit ukázku? Testovací data se z tohoto prohlížeče smažou.')) ukoncitUkazku();
+  });
   $('#odhlasit').addEventListener('click', () => { if (confirm('Odhlásit toto zařízení? Pro další použití bude potřeba znovu zadat PIN.')) odhlasit(); });
   $('#kamera-prepnout').addEventListener('click', () => prepniKameru());
   $('#rucne').addEventListener('click', () => {
@@ -1073,7 +1112,13 @@ async function start() {
   $('#nazev').textContent = nastaveni.NAZEV;
   napojUdalosti();
   zachytOdkaz();
-  if (relace.pin && nastaveni.API_URL) {
+  // Odkaz …/?ukazka rovnou zapne ukázku (jen když není nastavené API).
+  const parametry = new URLSearchParams(location.search);
+  if (parametry.has('ukazka')) {
+    if (ukazka.mozna) ukazka.zapnout();
+    history.replaceState(null, '', location.pathname + location.hash);
+  }
+  if (relace.pin && (nastaveni.API_URL || ukazka.aktivni)) {
     stav.role = relace.role;
     zobrazAplikaci();
     if (await nacist(true)) zpracujOdlozeny();
